@@ -33,7 +33,7 @@ public:
 	StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep);
 	~StepperMotor();
 
-	void Rotate(int Direction, long Steps, int Delay);
+	void Rotate(Stepper::Direction Direction, long Steps, int Delay);
 };
 enum class Direction
 {
