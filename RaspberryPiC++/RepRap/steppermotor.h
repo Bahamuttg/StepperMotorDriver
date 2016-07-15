@@ -38,6 +38,6 @@ public:
 enum class Direction
 {
 	Clockwise = 1,
-	CtrClockwist = -1
+	CtrClockwise = -1
 };
 #endif // STEPPERMOTOR_H
