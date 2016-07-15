@@ -9,8 +9,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHa
     this->_Coil_4 = Coil4;
     this->_IsHalfStep = IsHalfStep;
 
-    //Init GPIO
-    wiringPiSetup();
+
     //Setup Pin->Coil Mappings
     pinMode(_Coil_1, OUTPUT);
     pinMode(_Coil_2, OUTPUT);

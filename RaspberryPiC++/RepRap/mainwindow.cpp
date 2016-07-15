@@ -12,3 +12,10 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    Motor_1->Rotate(CLOCKWISE, 300, 10);
+
+}
