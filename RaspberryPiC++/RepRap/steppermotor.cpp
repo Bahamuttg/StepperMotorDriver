@@ -1,12 +1,13 @@
 #include "steppermotor.h"
+#include <wiringPi.h>
 
-StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool HalfStep)
+StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep)
 {
     this->_Coil_1 = Coil1;
     this->_Coil_2 = Coil2;
     this->_Coil_3 = Coil3;
     this->_Coil_4 = Coil4;
-    this->_IsHalfStep = HalfStep;
+    this->_IsHalfStep = IsHalfStep;
 
     //Init GPIO
     wiringPiSetup();
@@ -19,7 +20,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool Half
     Phase = 0;
     Direction = CLOCKWISE;
     Position = 0;
-
+    HoldPosition = true;
 }
 
 StepperMotor::~StepperMotor()
@@ -36,14 +37,18 @@ void StepperMotor::Rotate(int Direction, long Steps, int MS_Delay)
     {
         for(int i =0; i < Steps; i++)
         {
-            PerformStep(Direction, );
+            PerformStep(Direction);
             delay(MS_Delay);
         }
     }
 }
 
-void StepperMotor::PerformStep(int Direction, bool ActiveHold)
+void StepperMotor::PerformStep(int Direction)
 {
+    //full step sequence. maximum torque
+    const unsigned int FullStep[4][4]= {{1,1,0,0},{0,1,1,0},{0,0,1,1},{1,0,0,1}};
+    //half-step sequence. double resolution. But the torque of the stepper motor is not constant
+    const unsigned int HalfStep [8][4]= {{1,0,0,0},{1,1,0,0},{0,1,0,0},{0,1,1,0},{0,0,1,0},{0,0,1,1},{0,0,0,1},{1,0,0,1}};
     int TargetPhase;
 
     if(Enabled)
@@ -78,6 +83,15 @@ void StepperMotor::PerformStep(int Direction, bool ActiveHold)
         this->Phase = TargetPhase;
         this->Direction = Direction;
         this->Position += this->Direction;
+
+        //If we're not holding the motor position let's release it.
+        if(!HoldPosition)
+        {
+            digitalWrite(_Coil_1, LOW);
+            digitalWrite(_Coil_2, LOW);
+            digitalWrite(_Coil_3, LOW);
+            digitalWrite(_Coil_4, LOW);
+        }
     }
 }
 
