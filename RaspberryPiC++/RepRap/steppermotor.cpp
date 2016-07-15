@@ -6,7 +6,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool Half
     this->_Coil_2 = Coil2;
     this->_Coil_3 = Coil3;
     this->_Coil_4 = Coil4;
-    this-> _IsHalfStep = HalfStep;
+    this->_IsHalfStep = HalfStep;
 
     //Init GPIO
     wiringPiSetup();
@@ -36,13 +36,13 @@ void StepperMotor::Rotate(int Direction, long Steps, int MS_Delay)
     {
         for(int i =0; i < Steps; i++)
         {
-            PerformStep(Direction);
+            PerformStep(Direction, );
             delay(MS_Delay);
         }
     }
 }
 
-void StepperMotor::PerformStep(int Direction)
+void StepperMotor::PerformStep(int Direction, bool ActiveHold)
 {
     int TargetPhase;
 

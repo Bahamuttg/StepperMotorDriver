@@ -9,8 +9,6 @@
 class StepperMotor
 {
 private:
-
-
     unsigned int _Coil_1;
     unsigned int _Coil_2;
     unsigned int _Coil_3;
@@ -18,8 +16,7 @@ private:
     unsigned int Phase;
     bool _IsHalfStep;
 
-    void PerformStep(int Direction);
-
+    void PerformStep(int, bool);
 public:
     //full step sequence. maximum torque
     static const unsigned int FullStep[4][4];
@@ -29,6 +26,7 @@ public:
     long Direction;
     long Position;
     bool Enabled;
+    bool HoldPosition;
 
     StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool HalfStep);
     ~StepperMotor();
