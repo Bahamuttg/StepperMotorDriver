@@ -44,6 +44,7 @@ void StepperMotor::Rotate(int Direction, long Steps, int MS_Delay)
 
 void StepperMotor::PerformStep(int Direction)
 {
+	//const unsigned int NotGateFullStep[4][2] = {{1,0},{0,0},{0,1},{1,1}};
     //full step sequence. maximum torque
     const unsigned int FullStep[4][4]= {{1,1,0,0},{0,1,1,0},{0,0,1,1},{1,0,0,1}};
     //half-step sequence. double resolution. But the torque of the stepper motor is not constant
