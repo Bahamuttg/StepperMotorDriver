@@ -9,5 +9,6 @@ int main(int argc, char *argv[])
     w.show();
     StepperMotor *Motor = new StepperMotor(1,2,3,4,false);
 
+    Motor->Rotate(CLOCKWISE,32, 300);
     return a.exec();
 }
