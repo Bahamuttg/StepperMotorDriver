@@ -5,7 +5,10 @@
 
 #define CLOCKWISE 1
 #define CTRCLOCKWISE -1
-
+namespace Stepper
+{
+class StepperMotor;
+}
 class StepperMotor
 {
 protected:
