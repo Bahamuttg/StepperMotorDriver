@@ -9,6 +9,8 @@
 class StepperMotor
 {
 private:
+
+
     unsigned int _Coil_1;
     unsigned int _Coil_2;
     unsigned int _Coil_3;
@@ -19,7 +21,6 @@ private:
     void PerformStep(int Direction);
 
 public:
-
     //full step sequence. maximum torque
     static const unsigned int FullStep[4][4];
     //half-step sequence. double resolution. But the torque of the stepper motor is not constant
@@ -33,6 +34,7 @@ public:
     ~StepperMotor();
 
     void Rotate(int Direction, long Steps, int Delay);
+
 
 };
 

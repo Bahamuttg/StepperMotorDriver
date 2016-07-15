@@ -21,6 +21,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool Half
     Position = 0;
 
 }
+
 StepperMotor::~StepperMotor()
 {
     digitalWrite(_Coil_1, LOW);
@@ -43,7 +44,7 @@ void StepperMotor::Rotate(int Direction, long Steps, int MS_Delay)
 
 void StepperMotor::PerformStep(int Direction)
 {
-    int NextPhase;
+    int TargetPhase;
 
     if(Enabled)
     {
@@ -66,12 +67,12 @@ void StepperMotor::PerformStep(int Direction)
             digitalWrite(_Coil_4, HalfStep[TargetPhase][3]);
         }
         //Check if we need to reset the phase.
-        if(!_IsHalfStep && NextPhase >= 4)
-            NextPhase = 0;
+        if(!_IsHalfStep && TargetPhase >= 4)
+            TargetPhase = 0;
         else
         {
-            if (NextPhase > 8)
-                NextPhase = 0;
+            if (TargetPhase > 8)
+                TargetPhase = 0;
         }
         //Update motor status.
         this->Phase = TargetPhase;
