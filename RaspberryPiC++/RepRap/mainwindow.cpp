@@ -20,6 +20,17 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_2_pressed()
 {
     QTimer *T = new QTimer(this);
+    connect(T, SIGNAL(timeout()), this, SLOT(CtrClockwiseMove()));
+    T->setSingleShot(true);
+    T->start(1000);
+
+    Motor_1->Rotate(CTRCLOCKWISE, 1, 50);
+
+}
+
+void MainWindow::on_pushButton_pressed()
+{
+    QTimer *T = new QTimer(this);
     connect(T, SIGNAL(timeout()), this, SLOT(ClockwiseMove()));
     T->setSingleShot(true);
     T->start(1000);
@@ -28,22 +39,11 @@ void MainWindow::on_pushButton_2_pressed()
 
 }
 
-void MainWindow::on_pushButton_pressed()
-{
-    QTimer *T = new QTimer(this);
-    connect(T, SIGNAL(timeout()), this, SLOT(Clockwise()));
-    T->setSingleShot(true);
-    T->start(1000);
-
-    Motor_1->Rotate(CTRCLOCKWISE, 1, 50);
-
-}
-
 void MainWindow::ClockwiseMove()
 {
     while (ui->pushButton->isDown())
     {
-        Motor_1->Rotate(CTRCLOCKWISE, 1, 50);
+        Motor_1->Rotate(CLOCKWISE, 1, 50);
     }
 }
 
