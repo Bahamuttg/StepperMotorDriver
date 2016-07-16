@@ -18,4 +18,7 @@ void MainWindow::on_pushButton_clicked()
 {
 	Motor_1->Rotate(CLOCKWISE, 300, 10);
 
+    //hit end stop
+    Motor_1->Enabled = false;
+
 }
