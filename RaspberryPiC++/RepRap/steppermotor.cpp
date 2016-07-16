@@ -100,17 +100,16 @@ void StepperMotor::PerformStep(int Direction)
 
         //Update motor status.
         this->Phase = TargetPhase;
-
         this->Position += this->Direction;
-
-        //If we're not holding the motor position let's release it.
-        if (!HoldPosition)
-        {
-            digitalWrite(_Coil_1, LOW);
-            digitalWrite(_Coil_2, LOW);
-            digitalWrite(_Coil_3, LOW);
-            digitalWrite(_Coil_4, LOW);
-        }
+    }
+    //If we're not holding the motor position let's release it.
+    if (!HoldPosition)
+    {
+        digitalWrite(_Coil_1, LOW);
+        digitalWrite(_Coil_2, LOW);
+        digitalWrite(_Coil_3, LOW);
+        digitalWrite(_Coil_4, LOW);
     }
 }
+
 
