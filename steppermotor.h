@@ -2,7 +2,7 @@
 #define STEPPERMOTOR_H
 
 #include<wiringPi.h>
-#include <array>
+
 
 #define CLOCKWISE 1
 #define CTRCLOCKWISE -1
@@ -33,11 +33,7 @@ public:
 	StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep);
 	~StepperMotor();
 
-	void Rotate(Stepper::Direction Direction, long Steps, int Delay);
+    void Rotate(int Direction, long Steps, int Delay);
 };
-enum class Direction
-{
-	Clockwise = 1,
-	CtrClockwise = -1
-};
+
 #endif // STEPPERMOTOR_H
