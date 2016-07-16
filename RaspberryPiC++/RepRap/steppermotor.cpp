@@ -36,7 +36,7 @@ void StepperMotor::Rotate(int Direction, long Steps, int MS_Delay)
 	{
 		for (int i = 0; i < Steps; i++)
 		{
-			PerformStep(Direction);
+            PerformStep(Direction);
 			delay(MS_Delay);
 		}
 	}
