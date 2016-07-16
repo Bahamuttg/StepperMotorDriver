@@ -14,15 +14,23 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    StepperMotor *Motor_1 = new StepperMotor(1,2,3,4,false);
+    StepperMotor *Motor_1;// = new StepperMotor(1,2,3,4,false);
 
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_pushButton_2_pressed();
+    void on_pushButton_pressed();
+    void ClockwiseMove();
+    void CtrClockwiseMove();
+
+signals:
+
 
 private:
     Ui::MainWindow *ui;
+
+
 };
 
 #endif // MAINWINDOW_H
