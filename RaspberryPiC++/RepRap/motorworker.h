@@ -1,12 +1,15 @@
 #ifndef MOTORWORKER_H
 #define MOTORWORKER_H
 #include <QThread>
+#include <QtCore>
 #include "steppermotor.h"
 
-class MotorWorker : public QThread
+class MotorWorker : public QObject
 {
 private:
+    Q_OBJECT
     StepperMotor *_Motor;
+    QThread WorkerThread;
 
 public:
     bool StopThread;
@@ -14,7 +17,7 @@ public:
     MotorWorker(StepperMotor *);
     ~MotorWorker();
 
-    void run();
+    void DoWork();
 public slots:
     void Terminate();
 

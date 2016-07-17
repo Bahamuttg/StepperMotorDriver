@@ -41,16 +41,12 @@ void MainWindow::on_pushButton_pressed()
 
 void MainWindow::ThreadedRotate()
 {
-    MotorWorker *worker = new Worker(Motor_1);
-    connect(ui->pushButton, SIGNAL(released()), worker, SLOT(Terminate()));
-    connect(ui->pushButton_2, SIGNAL(released()), worker, SLOT(Terminate()));
-    connect(worker, SIGNAL(ProgressChanged(QString)), this, SLOT(on_ProgressChanged(QString)));
-    connect(worker, SIGNAL(Error(QString)), this, SLOT(errorString(QString)));
-    connect(worker, SIGNAL(Finished()), worker, SLOT(deleteLater()));
-    //    if(ui->pushButton->isDown() || ui->pushButton_2->isDown())
-    //    {
-    //        thread->start();
-    //    }
+    MotorWorker *worker = new MotorWorker(Motor_1);
+    worker->moveToThread(&worker->WorkerThread);
+    connect(&worker->WorkerThread, SIGNAL(finished()), worker, SLOT(deleteLater()));
+    connect(&worker, SIGNAL(), worker, SLOT(doWork(QString)));
+    connect(worker, SIGNAL(resultReady(QString)), this, SLOT(handleResults(QString)));
+    workerThread.start();
     worker->start();
 }
 

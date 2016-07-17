@@ -1,5 +1,6 @@
 #include "motorworker.h"
 #include <QThread>
+#include <QtCore>
 #include "steppermotor.h"
 
 MotorWorker::MotorWorker(StepperMotor *Motor)
@@ -8,7 +9,7 @@ MotorWorker::MotorWorker(StepperMotor *Motor)
     this->StopThread = false;
 }
 
-void MotorWorker::run()
+void MotorWorker::DoWork()
 {
     QString result;
     while (!this->StopThread)
