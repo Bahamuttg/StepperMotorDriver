@@ -2,32 +2,27 @@
 #define THREADWORKER_H
 #include <QtCore>
 #include <wiringPi.h>
+#include "steppermotor.h"
 
-class ThreadWorker : public QObject
+class Worker : public QObject
 {
     Q_OBJECT
-    QThread workerThread;
+    StepperMotor *_Motor;
 
-public slots:
-    void doWork(const QString &parameter);
-
-signals:
-    void resultReady(const QString &result);
-};
-
-class ThreadController : public QObject
-{
-    Q_OBJECT
-    QThread workerThread;
 public:
-    ThreadController();
-    ~ThreadController();
+    Worker(StepperMotor *Motor);
+    ~Worker();
+    bool Terminate;
 
 public slots:
-    void handleResults(const QString &);
+    void process();
+
 signals:
-    void operate(const QString &);
+    void finished();
+    void error(QString err);
+
+private:
+    // add your variables here
 };
 
-#endif // THREADWORKER_H
-
+#endif//THREADWORKER_H

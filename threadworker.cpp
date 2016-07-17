@@ -1,39 +1,25 @@
 #include "threadworker.h"
 #include <QtCore>
 #include <wiringPi.h>
+#include "steppermotor.h"
 
-void doWork(const QString &parameter)
+Worker::Worker(StepperMotor *Motor)
 {
-    // ...
-    emit resultReady(result);
+    this->_Motor = Motor;
+    this->Terminate = false;
 }
 
-ThreadController::ThreadController()
+Worker::~Worker()
 {
-    ThreadWorker *worker = new ThreadWorker;
-    worker->moveToThread(&workerThread);
-    connect(&workerThread, SIGNAL(finished()), worker, SLOT(deleteLater()));
-    connect(this, SIGNAL(operate(QString)), worker, SLOT(doWork(QString)));
-    connect(worker, SIGNAL(resultReady(QString)), this, SLOT(handleResults(QString)));
-    workerThread.start();
-}
-ThreadController::~ThreadController()
-{
-    workerThread.quit();
-    workerThread.wait();
+    // free resources
 }
 
-void resultReady(const QString &result)
+void Worker::process()
 {
-
-}
-
-void handleResults(const QString &)
-{
-}
-
-void operate(const QString &)
-{
-
+    while (!this->Terminate)
+    {
+        _Motor->Rotate(_Motor->Direction, 1, 50);
+    }
+    emit finished();
 }
 
