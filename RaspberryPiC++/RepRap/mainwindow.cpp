@@ -26,7 +26,7 @@ void MainWindow::on_pushButton_2_pressed()
     connect(T, SIGNAL(timeout()), this, SLOT(ThreadedRotate()));
     T->setSingleShot(true);
     T->start(1000);
-    Motor_1->Rotate(CTRCLOCKWISE, 1, 50);
+    Motor_1->Rotate(StepperMotor::CTRCLOCKWISE, 1, 50);
 }
 
 void MainWindow::on_pushButton_pressed()
@@ -36,7 +36,7 @@ void MainWindow::on_pushButton_pressed()
     connect(T, SIGNAL(timeout()), this, SLOT(ThreadedRotate()));
     T->setSingleShot(true);
     T->start(1000);
-    Motor_1->Rotate(CLOCKWISE, 1, 50);
+    Motor_1->Rotate(StepperMotor::CLOCKWISE, 1, 50);
 }
 
 void MainWindow::ThreadedRotate()

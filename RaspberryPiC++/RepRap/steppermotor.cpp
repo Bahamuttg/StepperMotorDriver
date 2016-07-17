@@ -20,6 +20,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHa
     Direction = CLOCKWISE;
     Position = 0;
     HoldPosition = true;
+    Enabled = true;
 }
 
 StepperMotor::~StepperMotor()
@@ -30,7 +31,7 @@ StepperMotor::~StepperMotor()
     digitalWrite(_Coil_4, LOW);
 }
 
-void StepperMotor::Rotate(int Direction, long Steps, int MS_Delay)
+void StepperMotor::Rotate(MotorDirection Direction, long Steps, int MS_Delay)
 {
     if (Enabled)
     {
@@ -42,7 +43,7 @@ void StepperMotor::Rotate(int Direction, long Steps, int MS_Delay)
     }
 }
 
-void StepperMotor::PerformStep(int Direction)
+void StepperMotor::PerformStep(MotorDirection Direction)
 {
     //const unsigned int NotGateFullStep[4][2] = {{1,0},{0,0},{0,1},{1,1}};
     //full step sequence. maximum torque
