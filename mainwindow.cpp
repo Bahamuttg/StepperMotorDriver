@@ -57,7 +57,6 @@ void MainWindow::ThreadedRotate()
 //        thread->start();
 //    }
     BackgroundWorker *Worker = new BackgroundWorker;
-
     Worker->RunWorkerAsync();
 }
 
@@ -65,7 +64,7 @@ void BackgroundWorker::DoWork()
 {
     while (!this->Cancel)
     {
-        MainWindow::Motor_1->Rotate(MainWindow::Motor_1_1->Direction, 1, 50);
+//        MainWindow::Motor_1->Rotate(MainWindow::Motor_1_1->Direction, 1, 50);
     }
     emit WorkComplete();
 }
