@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QtCore>
 #include <QTimer>
+#include <QThread>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -41,6 +42,7 @@ void MainWindow::on_pushButton_pressed()
 
 void MainWindow::ClockwiseMove()
 {
+
     while (ui->pushButton->isDown())
     {
         Motor_1->Rotate(CLOCKWISE, 1, 50);
