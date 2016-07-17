@@ -2,7 +2,7 @@
 #define BACKGROUNDWORKER_H
 #include <QtCore>
 
-class BackgroundWorker : public QThread
+class BackgroundWorker : public QObject
 {
 private:
     Q_OBJECT
@@ -10,6 +10,7 @@ public:
     BackgroundWorker();
     ~BackgroundWorker();
     bool Cancel;
+    void RunWorkerAsync();
 
 public slots:
     virtual void DoWork();
@@ -17,7 +18,7 @@ public slots:
     virtual void RunWorkerCompleted();
 
 signals:
-    void RunWorkerAsync();
+    void WorkerStarted();
     void ReportProgress();
     void WorkComplete();
     void Error(QString err);
