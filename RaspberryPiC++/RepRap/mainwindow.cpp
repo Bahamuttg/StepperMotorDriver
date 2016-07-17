@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "threadworker.h"
 #include <QtCore>
 #include <QTimer>
 #include <QThread>
@@ -43,10 +44,17 @@ void MainWindow::on_pushButton_pressed()
 void MainWindow::ClockwiseMove()
 {
 
-    while (ui->pushButton->isDown())
-    {
-        Motor_1->Rotate(CLOCKWISE, 1, 50);
-    }
+    QThread *thread = new QThread;
+    Worker *worker = new Worker(Motor_1);
+    worker->moveToThread(thread);
+    connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
+    connect(thread, SIGNAL(started()), worker, SLOT(process()));
+    connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    thread->start();
+
+
 }
 
 void MainWindow::CtrClockwiseMove()
