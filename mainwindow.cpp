@@ -31,6 +31,7 @@ void MainWindow::on_pushButton_2_pressed()
 
 void MainWindow::on_pushButton_pressed()
 {
+    //Timer still not right
     QTimer *T = new QTimer(this);
     connect(T, SIGNAL(timeout()), this, SLOT(ThreadedRotate()));
     T->setSingleShot(true);
