@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "steppermotor.h"
+#include "motorworker.h"
 #include <QtCore>
 #include <QPushButton>
 
@@ -15,14 +16,15 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
     StepperMotor *Motor_1;// = new StepperMotor(1,2,3,4,false);
 
+    explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 private slots:
     void on_pushButton_2_pressed();
     void on_pushButton_pressed();
+    void on_ProgressChanged(QString);
     void ThreadedRotate();
     void errorString(QString);
 

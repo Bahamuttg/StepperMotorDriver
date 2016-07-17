@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "threadworker.h"
-#include "backgroundworker.h"
+#include "motorworker.h"
 #include <QtCore>
 #include <QTimer>
 #include <QThread>
@@ -42,39 +41,17 @@ void MainWindow::on_pushButton_pressed()
 
 void MainWindow::ThreadedRotate()
 {
-//    QThread *thread = new QThread;
-//    Worker *worker = new Worker(Motor_1);
-//    worker->moveToThread(thread);
-//    connect(ui->pushButton, SIGNAL(released()), worker, SLOT(Terminate()));
-//    connect(ui->pushButton_2, SIGNAL(released()), worker, SLOT(Terminate()));
-//    connect(worker, SIGNAL(Error(QString)), this, SLOT(errorString(QString)));
-//    connect(thread, SIGNAL(started()), worker, SLOT(Process()));
-//    connect(worker, SIGNAL(Finished()), thread, SLOT(quit()));
-//    connect(worker, SIGNAL(Finished()), worker, SLOT(deleteLater()));
-//    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-//    if(ui->pushButton->isDown() || ui->pushButton_2->isDown())
-//    {
-//        thread->start();
-//    }
-    BackgroundWorker *Worker = new BackgroundWorker;
-    Worker->RunWorkerAsync();
-}
-
-void BackgroundWorker::DoWork()
-{
-    while (!this->Cancel)
-    {
-//        MainWindow::Motor_1->Rotate(MainWindow::Motor_1_1->Direction, 1, 50);
-    }
-    emit WorkComplete();
-}
-void BackgroundWorker::ProgressReported()
-{
-
-}
-void BackgroundWorker::RunWorkerCompleted()
-{
-
+    MotorWorker *worker = new Worker(Motor_1);
+    connect(ui->pushButton, SIGNAL(released()), worker, SLOT(Terminate()));
+    connect(ui->pushButton_2, SIGNAL(released()), worker, SLOT(Terminate()));
+    connect(worker, SIGNAL(ProgressChanged(QString)), this, SLOT(on_ProgressChanged(QString)));
+    connect(worker, SIGNAL(Error(QString)), this, SLOT(errorString(QString)));
+    connect(worker, SIGNAL(Finished()), worker, SLOT(deleteLater()));
+    //    if(ui->pushButton->isDown() || ui->pushButton_2->isDown())
+    //    {
+    //        thread->start();
+    //    }
+    worker->start();
 }
 
 void MainWindow::errorString(QString err)
