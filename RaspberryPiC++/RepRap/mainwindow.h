@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "steppermotor.h"
+#include <QtCore>
+#include <QPushButton>
 
 namespace Ui {
 class MainWindow;
@@ -21,8 +23,8 @@ public:
 private slots:
     void on_pushButton_2_pressed();
     void on_pushButton_pressed();
-    void ClockwiseMove();
-    void CtrClockwiseMove();
+    void ThreadedRotate();
+    void errorString(QString);
 
 signals:
 

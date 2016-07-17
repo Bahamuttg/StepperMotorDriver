@@ -4,6 +4,7 @@
 #include <QtCore>
 #include <QTimer>
 #include <QThread>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -22,28 +23,37 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_2_pressed()
 {
     QTimer *T = new QTimer(this);
-    connect(T, SIGNAL(timeout()), this, SLOT(CtrClockwiseMove()));
+    connect(T, SIGNAL(timeout()), this, SLOT(ThreadedRotate()));
     T->setSingleShot(true);
     T->start(1000);
 
     Motor_1->Rotate(CTRCLOCKWISE, 1, 50);
-
+    while (ui->pushButton->isDown())
+    {
+        delay(100);
+    }
+    T->stop();
+    delete T;
 }
 
 void MainWindow::on_pushButton_pressed()
 {
     QTimer *T = new QTimer(this);
-    connect(T, SIGNAL(timeout()), this, SLOT(ClockwiseMove()));
+    connect(T, SIGNAL(timeout()), this, SLOT(ThreadedRotate()));
     T->setSingleShot(true);
     T->start(1000);
 
     Motor_1->Rotate(CLOCKWISE, 1, 50);
-
+    while (ui->pushButton->isDown())
+    {
+        delay(100);
+    }
+    T->stop();
+    delete T;
 }
 
-void MainWindow::ClockwiseMove()
+void MainWindow::ThreadedRotate()
 {
-
     QThread *thread = new QThread;
     Worker *worker = new Worker(Motor_1);
     worker->moveToThread(thread);
@@ -53,14 +63,9 @@ void MainWindow::ClockwiseMove()
     connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     thread->start();
-
-
 }
 
-void MainWindow::CtrClockwiseMove()
+void MainWindow::errorString(QString err)
 {
-    while (ui->pushButton_2->isDown())
-    {
-        Motor_1->Rotate(CTRCLOCKWISE, 1, 50);
-    }
+     qDebug() << err;
 }
