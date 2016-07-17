@@ -26,43 +26,34 @@ void MainWindow::on_pushButton_2_pressed()
     connect(T, SIGNAL(timeout()), this, SLOT(ThreadedRotate()));
     T->setSingleShot(true);
     T->start(1000);
-
     Motor_1->Rotate(CTRCLOCKWISE, 1, 50);
-    while (ui->pushButton->isDown())
-    {
-        delay(100);
-    }
-    delete T;
 }
 
 void MainWindow::on_pushButton_pressed()
 {
-    QPushButton *button = ui->pushButton;
     QTimer *T = new QTimer(this);
-    connect(T, SIGNAL(timeout()), this, SLOT(ThreadedRotate(button)));
+    connect(T, SIGNAL(timeout()), this, SLOT(ThreadedRotate()));
     T->setSingleShot(true);
     T->start(1000);
-
     Motor_1->Rotate(CLOCKWISE, 1, 50);
-    while (ui->pushButton->isDown())
-    {
-        delay(100);
-    }
-    delete T;
 }
 
-void MainWindow::ThreadedRotate(QPushButton *button)
+void MainWindow::ThreadedRotate()
 {
     QThread *thread = new QThread;
     Worker *worker = new Worker(Motor_1);
     worker->moveToThread(thread);
-    connect(button, SIGNAL(released()), worker, SLOT(Terminate()));
-    connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
+    connect(ui->pushButton, SIGNAL(released()), worker, SLOT(Terminate()));
+    connect(ui->pushButton_2, SIGNAL(released()), worker, SLOT(Terminate()));
+    connect(worker, SIGNAL(Error(QString)), this, SLOT(errorString(QString)));
     connect(thread, SIGNAL(started()), worker, SLOT(Process()));
     connect(worker, SIGNAL(Finished()), thread, SLOT(quit()));
     connect(worker, SIGNAL(Finished()), worker, SLOT(deleteLater()));
-    connect(thread, SIGNAL(Finished()), thread, SLOT(deleteLater()));
-    thread->start();
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    if(ui->pushButton->isDown() || ui->pushButton_2->isDown())
+    {
+        thread->start();
+    }
 }
 
 void MainWindow::errorString(QString err)
