@@ -6,7 +6,7 @@
 Worker::Worker(StepperMotor *Motor)
 {
     this->_Motor = Motor;
-    this->Terminate = false;
+    this->Stop = false;
 }
 
 Worker::~Worker()
@@ -14,12 +14,16 @@ Worker::~Worker()
     // free resources
 }
 
-void Worker::process()
+void Worker::Process()
 {
-    while (!this->Terminate)
+    while (!this->Stop)
     {
         _Motor->Rotate(_Motor->Direction, 1, 50);
     }
-    emit finished();
+    emit Finished();
 }
 
+void Worker::Terminate()
+{
+    this->Stop = true;
+}

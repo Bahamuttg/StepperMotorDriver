@@ -23,7 +23,7 @@ public:
 private slots:
     void on_pushButton_2_pressed();
     void on_pushButton_pressed();
-    void ThreadedRotate();
+    void ThreadedRotate(QPushButton *);
     void errorString(QString);
 
 signals:

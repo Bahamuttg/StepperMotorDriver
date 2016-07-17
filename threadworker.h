@@ -12,17 +12,15 @@ class Worker : public QObject
 public:
     Worker(StepperMotor *Motor);
     ~Worker();
-    bool Terminate;
+    bool Stop;
 
 public slots:
-    void process();
+    void Process();
+    void Terminate();
 
 signals:
-    void finished();
-    void error(QString err);
-
-private:
-    // add your variables here
+    void Finished();
+    void Error(QString err);
 };
 
 #endif//THREADWORKER_H
