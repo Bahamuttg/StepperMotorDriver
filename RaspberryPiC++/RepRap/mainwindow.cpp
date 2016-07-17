@@ -32,14 +32,14 @@ void MainWindow::on_pushButton_2_pressed()
     {
         delay(100);
     }
-    T->stop();
     delete T;
 }
 
 void MainWindow::on_pushButton_pressed()
 {
+    QPushButton *button = ui->pushButton;
     QTimer *T = new QTimer(this);
-    connect(T, SIGNAL(timeout()), this, SLOT(ThreadedRotate()));
+    connect(T, SIGNAL(timeout()), this, SLOT(ThreadedRotate(button)));
     T->setSingleShot(true);
     T->start(1000);
 
@@ -48,20 +48,20 @@ void MainWindow::on_pushButton_pressed()
     {
         delay(100);
     }
-    T->stop();
     delete T;
 }
 
-void MainWindow::ThreadedRotate()
+void MainWindow::ThreadedRotate(QPushButton *button)
 {
     QThread *thread = new QThread;
     Worker *worker = new Worker(Motor_1);
     worker->moveToThread(thread);
+    connect(button, SIGNAL(released()), worker, SLOT(Terminate()));
     connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
-    connect(thread, SIGNAL(started()), worker, SLOT(process()));
-    connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
-    connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
-    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    connect(thread, SIGNAL(started()), worker, SLOT(Process()));
+    connect(worker, SIGNAL(Finished()), thread, SLOT(quit()));
+    connect(worker, SIGNAL(Finished()), worker, SLOT(deleteLater()));
+    connect(thread, SIGNAL(Finished()), thread, SLOT(deleteLater()));
     thread->start();
 }
 
