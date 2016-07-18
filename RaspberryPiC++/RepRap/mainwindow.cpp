@@ -41,13 +41,8 @@ void MainWindow::on_pushButton_pressed()
 
 void MainWindow::ThreadedRotate()
 {
-    MotorWorker *worker = new MotorWorker(Motor_1);
-    worker->moveToThread(&worker->WorkerThread);
-    connect(&worker->WorkerThread, SIGNAL(finished()), worker, SLOT(deleteLater()));
-    connect(&worker, SIGNAL(), worker, SLOT(doWork(QString)));
-    connect(worker, SIGNAL(resultReady(QString)), this, SLOT(handleResults(QString)));
-    workerThread.start();
-    worker->start();
+    Controller *MotorCtrl = new Controller(this->Motor_1);
+
 }
 
 void MainWindow::errorString(QString err)
