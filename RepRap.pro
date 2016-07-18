@@ -15,8 +15,7 @@ LIBS += -L/usr/local/include -lwiringPi
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    steppermotor.cpp \
-    motorworker.cpp
+    steppermotor.cpp
 
 HEADERS  += mainwindow.h \
     steppermotor.h \
