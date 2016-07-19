@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Link the MotorThread to the DoWork Slot.
     connect(MotorThread, SIGNAL(started()), this, SLOT(DoWork()));
+    connect(MotorThread, SIGNAL(terminated()), this, SLOT(ResetThreadStop()));
     //Link the timer to the MotorThread start.
     connect(ButtonTimer, SIGNAL(timeout()), MotorThread, SLOT(start()));
     //Link the Buttons pressed signal to the timer start
@@ -48,6 +49,11 @@ void MainWindow::on_pushButton_2_pressed()
 void MainWindow::on_pushButton_pressed()
 {
     Motor_1->Rotate(StepperMotor::CLOCKWISE, 1, 50);
+}
+
+void MainWindow::ResetThreadStop()
+{
+    this->StopThread = false;
 }
 
 void MainWindow::errorString(QString err)
