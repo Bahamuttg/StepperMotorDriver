@@ -27,14 +27,13 @@ private slots:
     void on_pushButton_2_pressed();
     void on_pushButton_pressed();
     void errorString(QString);
-
+    void ResetThreadStop();
     void DoWork()
     {
         while (!StopThread)
         {
             Motor_1->Rotate(Motor_1->Direction, 1, 50);
         }
-        StopThread = false;
     }
 signals:
 
