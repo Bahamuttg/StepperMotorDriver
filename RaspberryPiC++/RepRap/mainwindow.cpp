@@ -14,14 +14,16 @@ MainWindow::MainWindow(QWidget *parent) :
     Motor_1 = new StepperMotor(1,2,3,4,false);
     ButtonTimer = new QTimer(this);
     MotorThread = new QThread(this);
-    ButtonTimer->setSingleShot(true);
-    ButtonTimer->setInterval(1000);
 
+    ButtonTimer->setInterval(1000);
+    Worker = new MotorWorker(Motor_1);
+    Worker->moveToThread(MotorThread);
     //Link the MotorThread to the DoWork Slot.
-    connect(MotorThread, SIGNAL(started()), this, SLOT(DoWork()));
-    connect(MotorThread, SIGNAL(terminated()), this, SLOT(ResetThreadStop()));
+    connect(MotorThread, SIGNAL(started()), Worker, SLOT(DoWork()));
+    connect(MotorThread, SIGNAL(terminated()), Worker, SLOT(Terminate()));
     //Link the timer to the MotorThread start.
     connect(ButtonTimer, SIGNAL(timeout()), MotorThread, SLOT(start()));
+    connect(ButtonTimer, SIGNAL(timeout()), ButtonTimer, SLOT(stop()));
     //Link the Buttons pressed signal to the timer start
     connect(ui->pushButton, SIGNAL(pressed()), ButtonTimer, SLOT(start()));
     connect(ui->pushButton_2, SIGNAL(pressed()), ButtonTimer, SLOT(start()));
@@ -43,20 +45,37 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_2_pressed()
 {
+     Worker->StopThread = false;
     Motor_1->Rotate(StepperMotor::CTRCLOCKWISE, 1, 50);
+    qDebug()<<"Rotating Counter Clockwise!";
 }
 
 void MainWindow::on_pushButton_pressed()
 {
+     Worker->StopThread = false;
     Motor_1->Rotate(StepperMotor::CLOCKWISE, 1, 50);
+    qDebug()<<"Rotating Clockwise!";
 }
 
 void MainWindow::ResetThreadStop()
 {
+    Worker->StopThread = false;
     this->StopThread = false;
 }
 
 void MainWindow::errorString(QString err)
 {
      qDebug() << err;
+}
+
+void MainWindow::on_pushButton_released()
+{
+    Worker->Terminate();
+    qDebug()<<"Button Released!";
+}
+
+void MainWindow::on_pushButton_2_released()
+{
+    Worker->Terminate();
+    qDebug()<<"Button Released!";
 }

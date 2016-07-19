@@ -9,11 +9,9 @@ class MotorWorker : public QObject
     Q_OBJECT
     StepperMotor *_Motor;
 
-
 public:
     bool StopThread;
-    QThread WorkerThread;
-    MotorWorker(StepperMotor * Motor)
+    MotorWorker(StepperMotor *Motor)
     {
         this->_Motor = Motor;
         this->StopThread = false;
@@ -22,14 +20,18 @@ public:
 public slots:
     void DoWork()
     {
+        qDebug()<< "Firing Thread!";
         while (!this->StopThread)
         {
             _Motor->Rotate(_Motor->Direction, 1, 50);
+            qDebug()<< "Stepping";
         }
+        this->StopThread = false;
     }
 
     void Terminate()
     {
+        qDebug()<< "Setting Stop Flag!";
         this->StopThread = true;
     }
 
@@ -39,29 +41,5 @@ signals:
     void Error(QString err);
 
 };
-class Controller : public QObject
- {
-     Q_OBJECT
-     QThread workerThread;
- public:
-     Controller(StepperMotor *Motor)
-     {
-         MotorWorker *worker = new MotorWorker(Motor);
-         worker->moveToThread(&workerThread);
-         connect(&workerThread, SIGNAL(finished()), worker, SLOT(deleteLater()));
-         connect(this, SIGNAL(operate()), worker, SLOT(DoWork()));
-
-         workerThread.start();
-     }
-     ~Controller()
-     {
-         workerThread.quit();
-         workerThread.wait();
-     }
- public slots:
-
- signals:
-     void operate();
- };
 
 #endif // MOTORWORKER_H

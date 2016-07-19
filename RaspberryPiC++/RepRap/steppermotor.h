@@ -29,7 +29,7 @@ public:
     bool Enabled;
     bool HoldPosition;
 
-    StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep);
+    explicit StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep);
     ~StepperMotor();
 
     void Rotate(MotorDirection Direction, long Steps, int Delay);
