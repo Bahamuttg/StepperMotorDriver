@@ -25,8 +25,10 @@ public slots:
         {
             _Motor->Rotate(_Motor->Direction, 1, 50);
             qDebug()<< "Stepping";
+			emit ProgressChanged(_Motor->Position->toString());
         }
         this->StopThread = false;
+		emit WorkComplete("Done");
     }
 
     void Terminate()
