@@ -21,8 +21,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //Link the MotorThread to the DoWork Slot.
     connect(MotorThread, SIGNAL(started()), Worker, SLOT(DoWork()));
     connect(MotorThread, SIGNAL(terminated()), Worker, SLOT(Terminate()));
-    //Link the timer to the MotorThread start.
+    //Link the Timer elapsed to the MotorThread start.
     connect(ButtonTimer, SIGNAL(timeout()), MotorThread, SLOT(start()));
+	//Link the Timer elapsed to the Timer stop so we can use it again.
     connect(ButtonTimer, SIGNAL(timeout()), ButtonTimer, SLOT(stop()));
     //Link the Buttons pressed signal to the timer start
     connect(ui->pushButton, SIGNAL(pressed()), ButtonTimer, SLOT(start()));
@@ -70,12 +71,14 @@ void MainWindow::errorString(QString err)
 
 void MainWindow::on_pushButton_released()
 {
+//add if worker is running...
     Worker->Terminate();
     qDebug()<<"Button Released!";
 }
 
 void MainWindow::on_pushButton_2_released()
 {
+//add if worker is running..
     Worker->Terminate();
     qDebug()<<"Button Released!";
 }
