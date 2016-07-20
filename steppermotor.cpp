@@ -59,9 +59,9 @@ void StepperMotor::PerformStep(MotorDirection Direction)
 {
     //const unsigned int NotGateFullStep[4][2] = {{1,0},{0,0},{0,1},{1,1}};
     //full step sequence. maximum torque
-    const unsigned int FullStep[4][4] = { {1,1,0,0},{0,1,1,0},{0,0,1,1},{1,0,0,1} };
+    const unsigned int FullStep[4][4] = { {1,0,1,0},{0,1,1,0},{0,1,0,1},{1,0,0,1} };
     //half-step sequence. double resolution. But the torque of the stepper motor is not constant
-    const unsigned int HalfStep[8][4] = { {1,0,0,0},{1,1,0,0},{0,1,0,0},{0,1,1,0},{0,0,1,0},{0,0,1,1},{0,0,0,1},{1,0,0,1} };
+    const unsigned int HalfStep[8][4] = { {1,0,0,0},{1,0,1,0},{0,0,1,0},{0,1,1,0},{0,1,0,0},{0,1,0,1},{0,0,0,1},{1,0,0,1} };
     int TargetPhase;
 
     if(_IsInverted)
