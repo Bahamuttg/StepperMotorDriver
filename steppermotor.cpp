@@ -8,7 +8,9 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHa
     this->_Coil_3 = Coil3;
     this->_Coil_4 = Coil4;
     this->_IsHalfStep = IsHalfStep;
-
+    this->_Enabled = true;
+    this->_IsInverted = false;
+    this->_IsRotating = false;
 
     //Setup Pin->Coil Mappings
     pinMode(_Coil_1, OUTPUT);
@@ -16,31 +18,41 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHa
     pinMode(_Coil_3, OUTPUT);
     pinMode(_Coil_4, OUTPUT);
 
-    Phase = 0;
-    Direction = CLOCKWISE;
-    Position = 0;
-    HoldPosition = true;
-    Enabled = true;
+    this->Phase = 0;
+    this->Direction = CLOCKWISE;
+    this->Position = 0;
+    this->HoldPosition = true;
 }
 
 StepperMotor::~StepperMotor()
 {
-    digitalWrite(_Coil_1, LOW);
-    digitalWrite(_Coil_2, LOW);
-    digitalWrite(_Coil_3, LOW);
-    digitalWrite(_Coil_4, LOW);
+    CoilsOff();
 }
 
 void StepperMotor::Rotate(MotorDirection Direction, long Steps, int MS_Delay)
 {
-    if (Enabled)
-    {
+    if (_Enabled)
         for (int i = 0; i < Steps; i++)
         {
             PerformStep(Direction);
             delay(MS_Delay);
         }
+}
+
+void StepperMotor::Rotate(MotorDirection Direction, int MS_Delay)
+{
+    while(_Enabled)
+    {
+        PerformStep(Direction);
+        delay(MS_Delay);
     }
+}
+
+void StepperMotor::StopRotation(bool Hold)
+{
+    this->_Enabled = false;
+    if(!Hold)
+        CoilsOff();
 }
 
 void StepperMotor::PerformStep(MotorDirection Direction)
@@ -52,7 +64,9 @@ void StepperMotor::PerformStep(MotorDirection Direction)
     const unsigned int HalfStep[8][4] = { {1,0,0,0},{1,1,0,0},{0,1,0,0},{0,1,1,0},{0,0,1,0},{0,0,1,1},{0,0,0,1},{1,0,0,1} };
     int TargetPhase;
 
-    if (Enabled)
+    if(_IsInverted)
+        InvertDirection();
+    if (_Enabled)
     {
         this->Direction = Direction;
 
@@ -63,24 +77,17 @@ void StepperMotor::PerformStep(MotorDirection Direction)
         if (!_IsHalfStep)
         {
             if(this->Direction == CLOCKWISE && TargetPhase > 3)
-            {
                 TargetPhase = 0;
-            }
             else if(this->Direction == CTRCLOCKWISE && TargetPhase < 0)
-            {
                 TargetPhase = 3;
-            }
         }
         else
         {
             if(this->Direction == CLOCKWISE && TargetPhase > 7)
-            {
                 TargetPhase = 0;
-            }
             else if(this->Direction == CTRCLOCKWISE && TargetPhase < 0)
-            {
                 TargetPhase = 7;
-            }
+
         }
 
         //Set coils based upon phase shift, direction,and stepping style.
@@ -105,12 +112,40 @@ void StepperMotor::PerformStep(MotorDirection Direction)
     }
     //If we're not holding the motor position let's release it.
     if (!HoldPosition)
-    {
-        digitalWrite(_Coil_1, LOW);
-        digitalWrite(_Coil_2, LOW);
-        digitalWrite(_Coil_3, LOW);
-        digitalWrite(_Coil_4, LOW);
-    }
+        CoilsOff();
 }
 
+void StepperMotor::Enable()
+{
+    this->_Enabled = true;
+}
 
+void StepperMotor::Disable()
+{
+    this->_Enabled = false;
+    CoilsOff();
+}
+void StepperMotor::SetInverted(bool Arg)
+{
+    if(Arg)
+        this->_IsInverted = true;
+    else
+        this->_IsInverted = false;
+}
+
+void StepperMotor::CoilsOff()
+{
+    digitalWrite(_Coil_1, LOW);
+    digitalWrite(_Coil_2, LOW);
+    digitalWrite(_Coil_3, LOW);
+    digitalWrite(_Coil_4, LOW);
+}
+
+void StepperMotor::InvertDirection()
+{
+    if(this->Direction == CLOCKWISE)
+        this->Direction = CTRCLOCKWISE;
+    else
+        this->Direction = CLOCKWISE;
+    this->_IsInverted = true;
+}

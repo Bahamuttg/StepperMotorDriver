@@ -15,10 +15,16 @@ LIBS += -L/usr/local/include -lwiringPi
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    steppermotor.cpp
+    steppermotor.cpp \
+    coildialog.cpp
 
 HEADERS  += mainwindow.h \
     steppermotor.h \
-    motorworker.h
+    motorworker.h \
+    coildialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    coildialog.ui
+
+RESOURCES += \
+    Resources/Resources.qrc

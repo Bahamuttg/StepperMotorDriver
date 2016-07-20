@@ -25,13 +25,13 @@ public slots:
         {
             _Motor->Rotate(_Motor->Direction, 1, 50);
             qDebug()<< "Stepping";
-			emit ProgressChanged(_Motor->Position->toString());
+            emit ProgressChanged(QString::number(_Motor->Position));
         }
         this->StopThread = false;
 		emit WorkComplete("Done");
     }
 
-    void Terminate()
+    void Stop()
     {
         qDebug()<< "Setting Stop Flag!";
         this->StopThread = true;
@@ -41,7 +41,6 @@ signals:
     void ProgressChanged(QString info);
     void WorkComplete(QString result);
     void Error(QString err);
-
 };
 
 #endif // MOTORWORKER_H
