@@ -16,7 +16,10 @@ MainWindow::MainWindow(QWidget *parent) :
     Motor_1 = new StepperMotor(1,2,3,4,false);
     ButtonTimer = new QTimer(this);
     MotorThread = new QThread(this);
-
+    _A1 = 0;
+    _A2 = 0;
+    _B1 = 0;
+    _B2 = 0;
     ButtonTimer->setInterval(1000);
     Worker = new MotorWorker(Motor_1);
     Worker->moveToThread(MotorThread);
@@ -37,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //Link the Buttons released signal to the ButtonTimer stop.
     connect(ui->pushButton, SIGNAL(released()), ButtonTimer, SLOT(stop()));
     connect(ui->pushButton_2, SIGNAL(released()), ButtonTimer, SLOT(stop()));
+    //Listen for Motor Setting Changes.
+    connect(this, SIGNAL(CoilSettingsChanged()), this, SLOT(UpdateMotorSettings()));
 }
 
 MainWindow::~MainWindow()
@@ -93,6 +98,14 @@ void MainWindow::UpdatePositionLabel(QString Arg)
     ui->lblMotorPosition->setText(Arg);
 }
 
+void MainWindow::UpdateMotorSettings()
+{
+    if(Worker->IsBusy)
+        Worker->Stop();
+    Motor_1 = new StepperMotor(_A1, _A2, _B1, _B2, false);
+
+}
+
 void MainWindow::on_action_Exit_triggered()
 {
     this->close();
@@ -100,8 +113,15 @@ void MainWindow::on_action_Exit_triggered()
 
 void MainWindow::on_action_Configure_Coils_triggered()
 {
-    CoilDialog CD;
-    CD.show();
+    CoilDialog *CD = new CoilDialog(_A1, _A2, _B1, _B2, this);
+    CD->setModal(true);
+    CD->exec();
+    this->_A1 = CD->A1;
+    this->_A2 = CD->A2;
+    this->_B1 = CD->B1;
+    this->_B2 = CD->B2;
+    delete CD;
+    emit CoilSettingsChanged();
 }
 
 void MainWindow::on_actionUse_NOT_Gates_toggled(bool arg1)

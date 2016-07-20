@@ -17,6 +17,11 @@ class MainWindow : public QMainWindow
 private:
     Q_OBJECT
     bool StopThread;
+    unsigned int _A1;
+    unsigned int _A2;
+    unsigned int _B1;
+    unsigned int _B2;
+
 public:
     StepperMotor *Motor_1;// = new StepperMotor(1,2,3,4,false);
     QTimer *ButtonTimer;
@@ -33,8 +38,12 @@ private slots:
     void on_pushButton_2_released();
 
     void errorString(QString);
+
     void ResetThreadStop();
+
     void UpdatePositionLabel(QString);
+
+    void UpdateMotorSettings();
 
     void on_action_Exit_triggered();
 
@@ -43,7 +52,7 @@ private slots:
     void on_actionUse_NOT_Gates_toggled(bool arg1);
 
 signals:
-
+    void CoilSettingsChanged();
 
 private:
     Ui::MainWindow *ui;

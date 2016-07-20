@@ -11,6 +11,8 @@ class MotorWorker : public QObject
 
 public:
     bool StopThread;
+    bool IsBusy;
+
     MotorWorker(StepperMotor *Motor)
     {
         this->_Motor = Motor;
