@@ -55,7 +55,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Set Coil GPIO Pins (Wiring Pi)</string>
+    <string>Set Coil GPIO Pins</string>
    </property>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>310</width>
-    <height>100</height>
+    <height>217</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -17,12 +17,6 @@
    </sizepolicy>
   </property>
   <property name="minimumSize">
-   <size>
-    <width>310</width>
-    <height>100</height>
-   </size>
-  </property>
-  <property name="maximumSize">
    <size>
     <width>310</width>
     <height>100</height>
@@ -39,7 +33,7 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="gridLayoutWidget">
+   <widget class="QWidget" name="gridWidget" native="true">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -53,7 +47,7 @@
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <property name="leftMargin">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="horizontalSpacing">
       <number>3</number>
@@ -139,6 +133,89 @@
      </item>
     </layout>
    </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>70</y>
+      <width>291</width>
+      <height>108</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Coil A1 GPIO Pin</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLCDNumber" name="lcdA1">
+       <property name="digitCount">
+        <number>2</number>
+       </property>
+       <property name="segmentStyle">
+        <enum>QLCDNumber::Filled</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Coil B1  GPIO Pin</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Coil B2  GPIO Pin</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Coil A2  GPIO Pin</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLCDNumber" name="lcdB1">
+       <property name="digitCount">
+        <number>2</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLCDNumber" name="lcdA2">
+       <property name="digitCount">
+        <number>2</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLCDNumber" name="lcdB2">
+       <property name="digitCount">
+        <number>2</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -153,6 +230,9 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="action_Turn_Off_Coils"/>
+    <addaction name="action_Enable_Motor"/>
+    <addaction name="separator"/>
     <addaction name="action_Exit"/>
    </widget>
    <widget class="QMenu" name="menu_Settings">
@@ -161,6 +241,7 @@
     </property>
     <addaction name="action_Configure_Coils"/>
     <addaction name="actionUse_NOT_Gates"/>
+    <addaction name="action_Reset_MotorPosition"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Settings"/>
@@ -181,6 +262,21 @@
    </property>
    <property name="text">
     <string>Use &amp;NOT Gates</string>
+   </property>
+  </action>
+  <action name="action_Reset_MotorPosition">
+   <property name="text">
+    <string>&amp;Reset Motor Position</string>
+   </property>
+  </action>
+  <action name="action_Turn_Off_Coils">
+   <property name="text">
+    <string>&amp;Disable Motor</string>
+   </property>
+  </action>
+  <action name="action_Enable_Motor">
+   <property name="text">
+    <string>&amp;Enable Motor</string>
    </property>
   </action>
  </widget>

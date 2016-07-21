@@ -25,10 +25,10 @@ private slots:
 
     void on_buttonBox_rejected();
 
-    void on_Value_ChangedA1(QString);
-    void on_Value_ChangedA2(QString);
-    void on_Value_ChangedB1(QString);
-    void on_Value_ChangedB2(QString);
+    void Value_ChangedA1(const QString &);
+    void Value_ChangedA2(const QString &);
+    void Value_ChangedB1(const QString &);
+    void Value_ChangedB2(const QString &);
 
 private:
     Ui::CoilDialog *ui;
