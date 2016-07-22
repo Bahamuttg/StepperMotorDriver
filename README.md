@@ -12,6 +12,7 @@ Open a terminal and navigate to the location where the RepRap.pro resides and th
   qmake RepRap.pro
 
 next execute:
+
   make
 
 After that you should have an executable in the direcotry that you can run.
