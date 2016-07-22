@@ -6,6 +6,7 @@ It relies upon the WiringPi libraries which are pre-installed on the new Raspbia
 Primary usage is testing and calibrating resolution on stepper motors for other projects.
 
 To compile this project on your Pi:
+
 Open a terminal and navigate to the location where the RepRap.pro resides and then execute:
 
   qmake RepRap.pro
