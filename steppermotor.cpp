@@ -86,14 +86,14 @@ void StepperMotor::PerformStep(MotorDirection Direction)
 	const unsigned int FullStep[4][4] = { {1,0,1,0},{0,1,1,0},{0,1,0,1},{1,0,0,1} };
 	//half-step sequence. double resolution. But the torque of the stepper motor is not constant
 	const unsigned int HalfStep[8][4] = { {1,0,0,0},{1,0,1,0},{0,0,1,0},{0,1,1,0},{0,1,0,0},{0,1,0,1},{0,0,0,1},{1,0,0,1} };
+
 	int TargetPhase;
+	this->Direction = Direction;
 
 	if (_IsInverted)
 		InvertDirection();
 	if (_Enabled)
 	{
-		this->Direction = Direction;
-
 		//Record our target phase
 		TargetPhase = (this->Phase + this->Direction);
 
