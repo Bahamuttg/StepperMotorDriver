@@ -15,8 +15,11 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
 private:
+	Ui::MainWindow *ui;
+
     Q_OBJECT
     bool StopThread;
+    bool _UseHexInverter;
     unsigned int _A1;
     unsigned int _A2;
     unsigned int _B1;
@@ -25,7 +28,7 @@ private:
     void UpdateLabels();
 
 public:
-    StepperMotor *Motor_1;// = new StepperMotor(1,2,3,4,false);
+    StepperMotor *Motor_1;
     QTimer *ButtonTimer;
     QThread *MotorThread;
     MotorWorker *Worker;
@@ -55,18 +58,12 @@ private slots:
 
     void on_action_Reset_MotorPosition_triggered();
 
-
-
     void on_action_Turn_Off_Coils_triggered();
 
     void on_action_Enable_Motor_triggered();
 
 signals:
     void CoilSettingsChanged();
-
-private:
-    Ui::MainWindow *ui;
-
 
 };
 

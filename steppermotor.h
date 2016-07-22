@@ -15,6 +15,8 @@ private:
     unsigned int _Coil_3;
     unsigned int _Coil_4;
     unsigned int Phase;
+
+	volatile bool _IsNOTGated;
     volatile bool _IsHalfStep;
     volatile bool _Enabled;
     volatile bool _IsInverted;
@@ -33,8 +35,8 @@ public:
     MotorDirection Direction;
     long Position;
     volatile bool HoldPosition;
-
-    explicit StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep);
+    explicit StepperMotor(int Coil1, int Coil3, bool IsHalfStep = false);
+    explicit StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHalfStep = false);
     ~StepperMotor();
 
     void Rotate(MotorDirection Direction, long Steps, int MS_Delay);

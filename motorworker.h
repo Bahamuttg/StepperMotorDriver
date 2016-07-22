@@ -12,11 +12,13 @@ class MotorWorker : public QObject
 public:
     bool StopThread;
     bool IsBusy;
+	int StepDelay;
 
-    MotorWorker(StepperMotor *Motor)
+    MotorWorker(StepperMotor *Motor, int MS_Delay = 10)
     {
         this->_Motor = Motor;
         this->StopThread = false;
+		this->StepDelay = MS_Delay;
     }
 
 public slots:
@@ -25,7 +27,7 @@ public slots:
         qDebug()<< "Firing Thread!";
         while (!this->StopThread)
         {
-            _Motor->Rotate(_Motor->Direction, 1, 50);
+            _Motor->Rotate(_Motor->Direction, 1, 10);
             qDebug()<< "Stepping";
             emit ProgressChanged(QString::number(_Motor->Position));
         }
