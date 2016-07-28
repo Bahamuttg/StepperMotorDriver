@@ -29,7 +29,7 @@ StepperMotor::StepperMotor(int Coil1, int Coil2, int Coil3, int Coil4, bool IsHa
 	this->_Coil_2 = Coil2;
 	this->_Coil_3 = Coil3;
 	this->_Coil_4 = Coil4;
-	this->_IsNOTGated = IsNOTGated;
+	this->_IsNOTGated = false;
 	this->_IsHalfStep = IsHalfStep;
 	this->_Enabled = true;
 	this->_IsInverted = false;
